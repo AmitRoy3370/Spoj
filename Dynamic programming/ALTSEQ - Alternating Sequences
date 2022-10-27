@@ -1,0 +1,135 @@
+import java.util.Scanner;
+
+public class MyClass {
+    
+    static Scanner in = new Scanner(System.in);
+    
+    static int n;
+    
+    static long a[];
+    
+    static long solve(int i, long dp[]) {
+        
+        if(i >= n) {
+           
+           return 0L;
+           
+        }
+        
+        if(dp[i] != -1L) {
+           
+           return dp[i];
+           
+        }    
+        
+        long len = 1L;
+        
+        for(int j = i + 1; j < n; ++j) {
+            
+            if(Math.abs(a[j]) > Math.abs(a[i])) {
+                
+                if(a[i] * a[j] < 0L) {
+                    
+                    len = Math.max(len, 1L + solve(j, dp));
+                    
+                }
+                
+            }
+            
+        }
+        
+        return dp[i] = len;
+        
+    }
+    
+    static void solve(long dp[]) {
+        
+        for(int i = 1; i < n; ++i) {
+            
+            for(int j = 0; j < i; ++j) {
+                
+                if((a[i] * a[j]) < 0L && Math.abs(a[i]) > Math.abs(a[j])) {
+                    
+                   //System.out.println(a[i] + " " + a[j]);
+        
+                   dp[i] = Math.max(dp[i], dp[j] + 1L);
+                
+                }
+                
+            }
+            
+        }
+        
+        for(int i = 1; i < n; ++i) {
+            
+            dp[i] = Math.max(dp[i], dp[i - 1]);
+            
+        }
+        
+        System.out.print(dp[n - 1]);
+        
+    } 
+    
+    public static void main(String args[]) {
+      
+      n = in.nextInt();
+      
+      a = new long[n];
+      
+      for(int i = 0; i < n; ++i) {
+          
+          a[i] = in.nextLong();
+          
+      }
+      
+      long dp[] = new long[n];
+      
+      for(int i = 0; i < n; ++i) {
+          
+          dp[i] = 1L;
+          
+      }
+      
+      solve(dp);
+      
+      /*long ans = 1L;
+      
+      for(int i = 0; i < n; ++i) {
+          
+          ans = Math.max(ans, solve(i, dp));
+          
+      }
+      
+      System.out.print(ans);*/
+      
+    }
+    
+}
+
+/*
+
+8
+1 2 -2 -3 5 -7 -8 10
+
+*/
+
+/*
+
+10
+1 2 -9 -10 4 5 -3 -4 5 6
+
+*/
+
+/*
+
+7
+3 -4 5 -6 7 -1 9
+
+*/
+
+/*
+
+5
+-5 -2 4 2 -1
+
+*/
