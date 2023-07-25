@@ -1,0 +1,145 @@
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class AGGRCOW_Aggressive_cows {
+	
+	static Scanner in = new Scanner(System.in);
+	
+	static int testCases, n, c;
+	
+	static long a[];
+	
+	static boolean solve(long k) {
+		
+		long first_diff = a[0];
+		
+		int cow = 1;
+		
+		for(int i = 1; i < n; ++i) {
+			
+			if(a[i] - first_diff >= k) {
+				
+				++cow;
+				
+				first_diff = a[i];
+				
+			}
+			
+		}
+		
+		if(cow >= c) {
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	static long solve(long L, long R) {
+		
+		long ans = -1L;
+		
+		while(R >= L) {
+			
+			long mid = (L + R) / 2L;
+			
+			if(solve(mid)) {
+				
+				ans = Math.max(ans, mid);
+				
+				L = mid + 1L;
+				
+			} else {
+				
+				R = mid - 1L;
+				
+			}
+			
+		}
+		
+		return ans;
+		
+	}
+	
+	static void solve() {
+		
+		long max = max(a);
+		
+		sort(a);
+		
+		long ans = solve(0, max);
+		
+		System.out.println(ans);
+		
+	}
+	
+	public static void main(String [] amit) {
+		
+		testCases = in.nextInt();
+		
+		for(int t = 0; t < testCases; ++t) {
+			
+			input();
+			solve();
+			
+		}
+		
+	} 
+	
+	private static void input() {
+		
+		n = in.nextInt();
+		
+		c = in.nextInt();
+		
+		a = new long[n];
+		
+		for(int i = 0; i < n; ++i) {
+			
+			a[i] = in.nextLong();
+			
+		}
+		
+	}
+	
+	static long max(long a[]) {
+		
+		long max = a[0];
+		
+		for(long i : a) {
+			
+			max = Math.max(i, max);
+			
+		}
+		
+		return max;
+		
+	}
+	
+	static void sort(long a[]) {
+		
+		List<Long> list = new ArrayList<>();
+		
+		for(long i : a) {
+			
+			list.add(i);
+			
+		}
+		
+		Collections.sort(list);
+		
+		int index = 0;
+		
+		for(long i : list) {
+			
+			a[index++] = i;
+			
+		}
+		
+	}
+	
+}
